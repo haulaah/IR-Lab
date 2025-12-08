@@ -7,7 +7,7 @@
 <style>
 /* ---- PAGE STYLE ---- */
 body{
-  background:#DFF7F8; /* Light Teal */
+  background:#DFF7F8;
   color:#0f172a;
   font-family: Arial, sans-serif;
   text-align:center;
@@ -15,7 +15,9 @@ body{
   padding:20px;
 }
 
-h1{ margin-top:10px; }
+h1{
+  margin-top:5px;
+}
 
 button{
   padding:12px 20px;
@@ -33,14 +35,14 @@ button:hover{
   opacity:0.9;
 }
 
-.section{
-  display:none;
-  background:white;
-  padding:25px;
-  border-radius:10px;
-  max-width:600px;
-  margin:30px auto;
-  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+input{
+  padding:10px;
+  font-size:16px;
+  width:80%;
+  max-width:400px;
+  border-radius:6px;
+  border:1px solid #ccc;
+  text-align:center;
 }
 
 .feedback{
@@ -51,22 +53,28 @@ button:hover{
 .correct{ color:#16a34a; }
 .wrong{ color:#dc2626; }
 
-/* BIG LOGO */
-img{
-  max-width:350px;
-  width:100%;
-  margin:20px auto;
-  display:block;
-}
-
-/* MENU CARD */
-#menu{
+/* BIG MATCHING BOXES */
+.big-box{
   background:white;
-  max-width:500px;
+  width:600px;
+  max-width:95%;
   margin:20px auto;
   padding:25px;
   border-radius:10px;
   box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* LOGO SIZE */
+img{
+  max-width:600px;
+  width:100%;
+  margin:10px auto;
+  display:block;
+}
+
+/* SECTIONS */
+.section{
+  display:none;
 }
 </style>
 </head>
@@ -74,13 +82,12 @@ img{
 <body>
 
 <!-- LOGO -->
-<!-- Replace logo.png with your real logo file name -->
 <img src="logo.png" alt="Cyber Defender Logo">
 
 <h1>Cyber Defender: Incident Response Lab</h1>
 
 <!-- SECTION MENU -->
-<div id="menu">
+<div id="menu" class="big-box">
   <h2>Choose a Section</h2>
 
   <button onclick="showSection('misp')">MISP</button>
@@ -89,59 +96,70 @@ img{
 </div>
 
 <!-- ============================= -->
-<!-- ---------- MISP ------------- -->
+<!-- ----------- MISP ------------ -->
 <!-- ============================= -->
-<div id="misp" class="section">
+<div id="misp" class="section big-box">
   <h2>MISP</h2>
 
-  <p><b>1. What threat actor is responsible for the incident?</b></p>
+  <p><b>
+    1. What threat actor is responsible for the incident?
+  </b></p>
 
-  <button onclick="checkAnswer(this,true)">APT28</button>
-  <button onclick="checkAnswer(this,false)">Lazarus</button>
-  <button onclick="checkAnswer(this,false)">FIN7</button>
+  <input type="text" id="misp-answer" placeholder="Type your answer">
+
+  <br><br>
+  <button onclick="checkText('misp-answer','anantra')">Submit Answer</button>
 
   <div class="feedback"></div>
 
-  <br><br>
+  <br>
   <button onclick="finishSection()">Finish Section</button>
 </div>
 
 <!-- ============================= -->
 <!-- ---------- Cortex ----------- -->
 <!-- ============================= -->
-<div id="cortex" class="section">
+<div id="cortex" class="section big-box">
   <h2>Cortex</h2>
 
-  <p><b>1. What IP is malicious?</b></p>
+  <p><b>
+    1. What IP is malicious?
+  </b></p>
 
-  <button onclick="checkAnswer(this,false)">10.0.0.1</button>
-  <button onclick="checkAnswer(this,true)">45.87.112.9</button>
+  <input type="text" id="cortex-answer" placeholder="Type your answer">
+
+  <br><br>
+  <button onclick="checkText('cortex-answer','1.1.1.1')">Submit Answer</button>
 
   <div class="feedback"></div>
 
-  <br><br>
+  <br>
   <button onclick="finishSection()">Finish Section</button>
 </div>
 
 <!-- ============================= -->
-<!-- ---------- The Hive --------- -->
+<!-- ----------- The Hive -------- -->
 <!-- ============================= -->
-<div id="hive" class="section">
+<div id="hive" class="section big-box">
   <h2>The Hive</h2>
 
-  <p><b>1. What domain observable was added to the case?</b></p>
+  <p><b>
+    1. What observable domain name has been added to the case?
+  </b></p>
 
-  <button onclick="checkAnswer(this,true)">malicious-example.com</button>
-  <button onclick="checkAnswer(this,false)">google.com</button>
+  <input type="text" id="hive-answer" placeholder="Type your answer">
+
+  <br><br>
+  <button onclick="checkText('hive-answer','domain.com')">Submit Answer</button>
 
   <div class="feedback"></div>
 
-  <br><br>
+  <br>
   <button onclick="finishSection()">Finish Section</button>
 </div>
 
 <!-- ============================= -->
-<!-- --------- JAVASCRIPT -------- -->
+<!-- ---------- SCRIPT ----------- -->
 <!-- ============================= -->
 <script>
 
@@ -150,19 +168,28 @@ function showSection(sectionId){
   document.getElementById(sectionId).style.display = "block";
 }
 
-function checkAnswer(button, isCorrect){
+function checkText(inputId, correctAnswer){
 
-  let feedback = button.parentElement.querySelector(".feedback");
+  let input = document.getElementById(inputId);
+  let userAnswer = input.value.trim().toLowerCase();
 
-  if(isCorrect){
+  let expected = correctAnswer.toLowerCase();
+
+  let feedback = input
+      .parentElement
+      .querySelector(".feedback");
+
+  if(userAnswer === expected){
     feedback.innerHTML = "<span class='correct'>✅ Correct</span>";
   } else {
-    feedback.innerHTML = "<span class='wrong'>❌ Incorrect</span>";
+    feedback.innerHTML =
+      "<span class='wrong'>❌ Incorrect</span><br>" +
+      "Correct answer: <b>" + correctAnswer + "</b>";
   }
 }
 
 function finishSection(){
-  alert("✅ Section completed.\nYou can restart or close the quiz.");
+  alert("✅ Section completed.\nYou may restart or close the quiz.");
   location.reload();
 }
 
