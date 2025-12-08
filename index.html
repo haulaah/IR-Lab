@@ -1,1 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cyber Defender: Incident Response Lab</title>
+
+<style>
+body{
+  background:#0f172a;
+  color:white;
+  font-family: Arial, sans-serif;
+  text-align:center;
+}
+
+button{
+  padding:10px 18px;
+  margin:6px;
+  font-size:16px;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+.section{
+  display:none;
+  margin-top:30px;
+}
+
+.feedback{
+  margin-top:12px;
+  font-size:18px;
+}
+
+.correct{ color:#22c55e; }
+.wrong{ color:#ef4444; }
+
+img{
+  max-width:200px;
+  margin:10px auto;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Cyber Defender: Incident Response Lab</h1>
+
+<!-- You can add your logo below -->
+<!-- Replace "logo.png" with your image filename -->
+<img src="logo.png" alt="Lab Logo">
+
+<div id="menu">
+  <h2>Select a section</h2>
+  <button onclick="show('misp')">MISP</button>
+  <button onclick="show('cortex')">Cortex</button>
+  <button onclick="show('hive')">The Hive</button>
+</div>
+
+<!-- MISP -->
+<div id="misp" class="section">
+  <h2>MISP</h2>
+  <p>1. What threat actor is responsible for the incident?</p>
+
+  <button onclick="answer(this,true)">
+    APT28
+  </button>
+
+  <button onclick="answer(this,false)">
+    Lazarus
+  </button>
+
+  <button onclick="answer(this,false)">
+    FIN7
+  </button>
+
+  <div class="feedback"></div>
+
+  <br>
+  <button onclick="finish()">Finish Section</button>
+</div>
+
+<!-- Cortex -->
+<div id="cortex" class="section">
+  <h2>Cortex</h2>
+  <p>1. What IP is malicious?</p>
+
+  <button onclick="answer(this,false)">
+    10.0.0.1
+  </button>
+
+  <button onclick="answer(this,true)">
+    45.87.112.9
+  </button>
+
+  <div class="feedback"></div>
+
+  <br>
+  <button onclick="finish()">Finish Section</button>
+</div>
+
+<!-- The Hive -->
+<div id="hive" class="section">
+  <h2>The Hive</h2>
+  <p>1. Which observable domain was added to the case?</p>
+
+  <button onclick="answer(this,true)">
+    malicious-example.com
+  </button>
+
+  <button onclick="answer(this,false)">
+    google.com
+  </button>
+
+  <div class="feedback"></div>
+
+  <br>
+  <button onclick="finish()">Finish Section</button>
+</div>
+
+<script>
+function show(id){
+  document.getElementById("menu").style.display = "none";
+  document.getElementById(id).style.display = "block";
+}
+
+function answer(btn,isCorrect){
+  const box = btn.parentElement.querySelector(".feedback");
+
+  if(isCorrect){
+    box.innerHTML = "<span class='correct'>✅ Correct</span>";
+  } else {
+    box.innerHTML = "<span class='wrong'>❌ Incorrect</span>";
+  }
+}
+
+function finish(){
+  alert("✅ Section completed.");
+  location.reload();
+}
+</script>
+
+</body>
+</html>
 
