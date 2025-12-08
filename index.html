@@ -7,7 +7,7 @@
 <style>
 /* ---- PAGE STYLE ---- */
 body{
-  background:#DFF7F8;
+  background:#ffffff; /* White overall */
   color:#0f172a;
   font-family: Arial, sans-serif;
   text-align:center;
@@ -27,7 +27,7 @@ button{
   border:none;
   border-radius:6px;
   cursor:pointer;
-  background:#14b8a6;
+  background:#14b8a6; /* Teal buttons */
   color:white;
 }
 
@@ -55,7 +55,7 @@ input{
 
 /* BIG MATCHING BOXES */
 .big-box{
-  background:white;
+  background:#f0f0f0; /* Light gray for section box */
   width:600px;
   max-width:95%;
   margin:20px auto;
@@ -101,17 +101,11 @@ img{
 <div id="misp" class="section big-box">
   <h2>MISP</h2>
 
-  <p><b>
-    1. What threat actor is responsible for the incident?
-  </b></p>
-
+  <p><b>1. What threat actor is responsible for the incident?</b></p>
   <input type="text" id="misp-answer" placeholder="Type your answer">
-
   <br><br>
   <button onclick="checkText('misp-answer','anantra')">Submit Answer</button>
-
   <div class="feedback"></div>
-
   <br>
   <button onclick="finishSection()">Finish Section</button>
 </div>
@@ -122,17 +116,11 @@ img{
 <div id="cortex" class="section big-box">
   <h2>Cortex</h2>
 
-  <p><b>
-    1. What IP is malicious?
-  </b></p>
-
+  <p><b>1. What IP is malicious?</b></p>
   <input type="text" id="cortex-answer" placeholder="Type your answer">
-
   <br><br>
   <button onclick="checkText('cortex-answer','1.1.1.1')">Submit Answer</button>
-
   <div class="feedback"></div>
-
   <br>
   <button onclick="finishSection()">Finish Section</button>
 </div>
@@ -143,17 +131,11 @@ img{
 <div id="hive" class="section big-box">
   <h2>The Hive</h2>
 
-  <p><b>
-    1. What observable domain name has been added to the case?
-  </b></p>
-
+  <p><b>1. What observable domain name has been added to the case?</b></p>
   <input type="text" id="hive-answer" placeholder="Type your answer">
-
   <br><br>
   <button onclick="checkText('hive-answer','domain.com')">Submit Answer</button>
-
   <div class="feedback"></div>
-
   <br>
   <button onclick="finishSection()">Finish Section</button>
 </div>
@@ -169,15 +151,10 @@ function showSection(sectionId){
 }
 
 function checkText(inputId, correctAnswer){
-
   let input = document.getElementById(inputId);
   let userAnswer = input.value.trim().toLowerCase();
-
   let expected = correctAnswer.toLowerCase();
-
-  let feedback = input
-      .parentElement
-      .querySelector(".feedback");
+  let feedback = input.parentElement.querySelector(".feedback");
 
   if(userAnswer === expected){
     feedback.innerHTML = "<span class='correct'>✅ Correct</span>";
