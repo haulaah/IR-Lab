@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Ransomware Incident at IR-ORG</title>
+<title>Cyber Defender: Incident Response Lab</title>
 
 <style>
 /* ---- PAGE STYLE ---- */
@@ -27,7 +27,7 @@ button{
   border:none;
   border-radius:6px;
   cursor:pointer;
-  background:#0d9488; /* Darker teal */
+  background:#0d9488;
   color:white;
 }
 
@@ -38,7 +38,7 @@ button:hover{
 input{
   padding:10px;
   font-size:16px;
-  width:100%; /* Full width of section box */
+  width:100%; 
   max-width:100%;
   border-radius:6px;
   border:1px solid #ccc;
@@ -55,7 +55,7 @@ input{
 
 /* BIG MATCHING BOXES */
 .big-box{
-  background:#d3d3d3; /* Darker light gray */
+  background:#d3d3d3; 
   width:600px;
   max-width:95%;
   margin:20px auto;
@@ -97,13 +97,11 @@ img{
   <button onclick="showSection('hive')">The Hive</button>
 </div>
 
-<!-- ============================= -->
 <!-- ----------- MISP ------------ -->
-<!-- ============================= -->
 <div id="misp" class="section big-box">
   <h2>MISP</h2>
 
-  <p><b>1. What threat actor is responsible for the incident?</b></p>
+  <p><b>1. What is the name of the ransomware group responsible for the incident?</b></p>
   <input type="text" id="misp-answer" placeholder="Type your answer">
   <br><br>
   <button onclick="checkText('misp-answer','dragonforce')">Submit Answer</button>
@@ -112,40 +110,35 @@ img{
   <button onclick="finishSection()">Finish Section</button>
 </div>
 
-<!-- ============================= -->
 <!-- ---------- Cortex ----------- -->
-<!-- ============================= -->
 <div id="cortex" class="section big-box">
   <h2>Cortex</h2>
 
-  <p><b>1. What IP is malicious?</b></p>
+  <p><b>1. What is the value shown in the first "level" field for the IP address “185.59.221.75”? ?</b></p>
   <input type="text" id="cortex-answer" placeholder="Type your answer">
   <br><br>
-  <button onclick="checkText('cortex-answer','94.232.46.202')">Submit Answer</button>
+  <button onclick="checkText('cortex-answer','malicious')">Submit Answer</button>
   <div class="feedback"></div>
   <br>
   <button onclick="finishSection()">Finish Section</button>
 </div>
 
-<!-- ============================= -->
 <!-- ----------- The Hive -------- -->
-<!-- ============================= -->
 <div id="hive" class="section big-box">
   <h2>The Hive</h2>
 
-  <p><b>1. What observable domain name has been added to the case?</b></p>
+  <p><b>1. What observable domain name has a tag with "malicious"?</b></p>
   <input type="text" id="hive-answer" placeholder="Type your answer">
   <br><br>
-  <button onclick="checkText('hive-answer','malweb.com')">Submit Answer</button>
+  <button onclick="checkText('hive-answer','dom3.com')">Submit Answer</button>
   <div class="feedback"></div>
   <br>
   <button onclick="finishSection()">Finish Section</button>
 </div>
 
-<!-- ============================= -->
 <!-- ---------- SCRIPT ----------- -->
-<!-- ============================= -->
-<script>
+
+  <script>
 
 function showSection(sectionId){
   document.getElementById("menu").style.display = "none";
@@ -168,7 +161,7 @@ function checkText(inputId, correctAnswer){
 }
 
 function finishSection(){
-  alert("✅ Section completed.\nYou may restart or close the quiz.");
+  alert("✅ Section completed.\nYou will be redirected to the main menu.");
   location.reload();
 }
 
