@@ -105,25 +105,27 @@ img{
 </div>
 
 <div id="misp-q1" class="section big-box">
-  <p><b>What ransomware group is responsible for the incident?</b></p>
+  <p><b>What is the Threat Level for this Incident?</b></p>
   <input id="misp-q1-answer">
-  <button onclick="checkText('misp-q1-answer','dragonforce')">Submit</button>
+  <button onclick="checkText('misp-q1-answer','high')">Submit</button>
   <div class="feedback"></div>
 </div>
-
+  
 <div id="misp-q2" class="section big-box">
-  <p><b>What malware type is associated with this incident?</b></p>
+  <p><b>What ransomware group is responsible for the incident?</b></p>
   <input id="misp-q2-answer">
-  <button onclick="checkText('misp-q2-answer','ransomware')">Submit</button>
+  <button onclick="checkText('misp-q2-answer','dragonforce')">Submit</button>
   <div class="feedback"></div>
 </div>
 
 <div id="misp-q3" class="section big-box">
-  <p><b>What organization sector was targeted?</b></p>
+  <p><b>What is the Event ID for the "Related Event" associated with the attribute "185.59.221.75"?</b></p>
   <input id="misp-q3-answer">
-  <button onclick="checkText('misp-q3-answer','healthcare')">Submit</button>
+  <button onclick="checkText('misp-q3-answer','ransomware')">Submit</button>
   <div class="feedback"></div>
 </div>
+
+
 
 <!---------------- CORTEX ---------------->
 <div id="cortex" class="section big-box">
@@ -180,14 +182,14 @@ img{
 </div>
 
 <div id="hive-q2" class="section big-box">
-  <p><b>What type of observable is <code>dom3.com</code>?</b></p>
+  <p><b>How many case tasks are available for the Incident?</code>?</b></p>
   <input id="hive-q2-answer">
   <button onclick="checkText('hive-q2-answer','domain')">Submit</button>
   <div class="feedback"></div>
 </div>
 
 <div id="hive-q3" class="section big-box">
-  <p><b>Which tag describes the threat level of that observable?</b></p>
+  <p><b>Which case task involves your team preventing the ransomware from spreading all over your organisation?</b></p>
   <input id="hive-q3-answer">
   <button onclick="checkText('hive-q3-answer','malicious')">Submit</button>
   <div class="feedback"></div>
@@ -197,14 +199,27 @@ img{
 <script>
 
 function showSection(sectionId){
-  document.querySelectorAll(".section").forEach(s => s.style.display="none");
-  document.getElementById("menu").style.display="none";
-  document.getElementById(sectionId).style.display="block";
+  document.querySelectorAll(".section").forEach(s => s.style.display = "none");
+  document.getElementById("menu").style.display = "none";
+  document.getElementById(sectionId).style.display = "block";
 }
 
 function returnMenu(){
+  resetAllFields();                // ✅ Clear everything
   document.querySelectorAll(".section").forEach(s => s.style.display="none");
   document.getElementById("menu").style.display="block";
+}
+
+function resetAllFields(){
+  // Clear inputs
+  document.querySelectorAll("input").forEach(input => {
+    input.value = "";
+  });
+
+  // Clear feedback text
+  document.querySelectorAll(".feedback").forEach(fb => {
+    fb.innerHTML = "";
+  });
 }
 
 function checkText(inputId, correctAnswer){
@@ -221,12 +236,14 @@ function checkText(inputId, correctAnswer){
       "Correct answer: <b>" + correctAnswer + "</b>";
   }
 
+  // ✅ Auto-clear + return to menu
   setTimeout(() => {
     returnMenu();
   }, 1500);
 }
 
 </script>
+
 
 </body>
 </html>
