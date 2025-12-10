@@ -5,9 +5,9 @@
 <title>Cyber Defender: Incident Response Lab</title>
 
 <style>
-/* ---- PAGE STYLE ---- */
+
 body{
-  background:#ffffff; /* White overall */
+  background:#ffffff;
   color:#0f172a;
   font-family: Arial, sans-serif;
   text-align:center;
@@ -38,8 +38,7 @@ button:hover{
 input{
   padding:10px;
   font-size:16px;
-  width:100%; 
-  max-width:100%;
+  width:100%;
   border-radius:6px;
   border:1px solid #ccc;
   text-align:center;
@@ -53,19 +52,20 @@ input{
 .correct{ color:#16a34a; }
 .wrong{ color:#dc2626; }
 
-/* BIG MATCHING BOXES */
 .big-box{
-  background:#d3d3d3; 
+  background:#d3d3d3;
   width:600px;
   max-width:95%;
   margin:20px auto;
   padding:25px;
   border-radius:10px;
   box-shadow:0 5px 15px rgba(0,0,0,0.1);
-  box-sizing:border-box;
 }
 
-/* LOGO SIZE MATCHES BOX */
+.section{
+  display:none;
+}
+
 img{
   width:600px;
   max-width:95%;
@@ -74,75 +74,137 @@ img{
   border-radius:10px;
 }
 
-/* SECTIONS */
-.section{
-  display:none;
-}
 </style>
 </head>
 
 <body>
 
-<!-- LOGO -->
 <img src="logo.png" alt="Cyber Defender Logo">
 
 <h1>Ransomware Incident at IR-ORG</h1>
 
-<!-- SECTION MENU -->
+<!---------------- MAIN MENU ---------------->
 <div id="menu" class="big-box">
   <h2>Choose a Section</h2>
-
   <button onclick="showSection('misp')">MISP</button>
   <button onclick="showSection('cortex')">Cortex</button>
   <button onclick="showSection('hive')">The Hive</button>
 </div>
 
-<!-- ----------- MISP ------------ -->
+<!---------------- MISP ---------------->
 <div id="misp" class="section big-box">
   <h2>MISP</h2>
+  <p>Select a question:</p>
 
-  <p><b>1. What is the name of the ransomware group responsible for the incident?</b></p>
-  <input type="text" id="misp-answer" placeholder="Type your answer">
+  <button onclick="showSection('misp-q1')">Question 1</button>
+  <button onclick="showSection('misp-q2')">Question 2</button>
+  <button onclick="showSection('misp-q3')">Question 3</button>
+
   <br><br>
-  <button onclick="checkText('misp-answer','dragonforce')">Submit Answer</button>
-  <div class="feedback"></div>
-  <br>
-  <button onclick="finishSection()">Finish Section</button>
+  <button onclick="returnMenu()">⬅ Back to Menu</button>
 </div>
 
-<!-- ---------- Cortex ----------- -->
+<div id="misp-q1" class="section big-box">
+  <p><b>What ransomware group is responsible for the incident?</b></p>
+  <input id="misp-q1-answer">
+  <button onclick="checkText('misp-q1-answer','dragonforce')">Submit</button>
+  <div class="feedback"></div>
+</div>
+
+<div id="misp-q2" class="section big-box">
+  <p><b>What malware type is associated with this incident?</b></p>
+  <input id="misp-q2-answer">
+  <button onclick="checkText('misp-q2-answer','ransomware')">Submit</button>
+  <div class="feedback"></div>
+</div>
+
+<div id="misp-q3" class="section big-box">
+  <p><b>What organization sector was targeted?</b></p>
+  <input id="misp-q3-answer">
+  <button onclick="checkText('misp-q3-answer','healthcare')">Submit</button>
+  <div class="feedback"></div>
+</div>
+
+<!---------------- CORTEX ---------------->
 <div id="cortex" class="section big-box">
   <h2>Cortex</h2>
+  <p>Select a question:</p>
 
-  <p><b>1. What is the value shown in the first "level" field for the IP address “185.59.221.75”? ?</b></p>
-  <input type="text" id="cortex-answer" placeholder="Type your answer">
+  <button onclick="showSection('cortex-q1')">Question 1</button>
+  <button onclick="showSection('cortex-q2')">Question 2</button>
+  <button onclick="showSection('cortex-q3')">Question 3</button>
+
   <br><br>
-  <button onclick="checkText('cortex-answer','malicious')">Submit Answer</button>
-  <div class="feedback"></div>
-  <br>
-  <button onclick="finishSection()">Finish Section</button>
+  <button onclick="returnMenu()">⬅ Back to Menu</button>
 </div>
 
-<!-- ----------- The Hive -------- -->
+<div id="cortex-q1" class="section big-box">
+  <p><b>What is the first "level" value for IP <code>185.59.221.75</code>?</b></p>
+  <input id="cortex-q1-answer">
+  <button onclick="checkText('cortex-q1-answer','malicious')">Submit</button>
+  <div class="feedback"></div>
+</div>
+
+<div id="cortex-q2" class="section big-box">
+  <p><b>What namespace appears in the first taxonomy entry?</b></p>
+  <input id="cortex-q2-answer">
+  <button onclick="checkText('cortex-q2-answer','vt')">Submit</button>
+  <div class="feedback"></div>
+</div>
+
+<div id="cortex-q3" class="section big-box">
+  <p><b>How many scanners flagged this IP as malicious?</b></p>
+  <input id="cortex-q3-answer">
+  <button onclick="checkText('cortex-q3-answer','6')">Submit</button>
+  <div class="feedback"></div>
+</div>
+
+<!---------------- THE HIVE ---------------->
 <div id="hive" class="section big-box">
   <h2>The Hive</h2>
+  <p>Select a question:</p>
 
-  <p><b>1. What observable domain name has a tag with "malicious"?</b></p>
-  <input type="text" id="hive-answer" placeholder="Type your answer">
+  <button onclick="showSection('hive-q1')">Question 1</button>
+  <button onclick="showSection('hive-q2')">Question 2</button>
+  <button onclick="showSection('hive-q3')">Question 3</button>
+
   <br><br>
-  <button onclick="checkText('hive-answer','dom3.com')">Submit Answer</button>
-  <div class="feedback"></div>
-  <br>
-  <button onclick="finishSection()">Finish Section</button>
+  <button onclick="returnMenu()">⬅ Back to Menu</button>
 </div>
 
-<!-- ---------- SCRIPT ----------- -->
+<div id="hive-q1" class="section big-box">
+  <p><b>What domain observable is tagged as malicious?</b></p>
+  <input id="hive-q1-answer">
+  <button onclick="checkText('hive-q1-answer','dom3.com')">Submit</button>
+  <div class="feedback"></div>
+</div>
 
-  <script>
+<div id="hive-q2" class="section big-box">
+  <p><b>What type of observable is <code>dom3.com</code>?</b></p>
+  <input id="hive-q2-answer">
+  <button onclick="checkText('hive-q2-answer','domain')">Submit</button>
+  <div class="feedback"></div>
+</div>
+
+<div id="hive-q3" class="section big-box">
+  <p><b>Which tag describes the threat level of that observable?</b></p>
+  <input id="hive-q3-answer">
+  <button onclick="checkText('hive-q3-answer','malicious')">Submit</button>
+  <div class="feedback"></div>
+</div>
+
+<!---------------- JAVASCRIPT ---------------->
+<script>
 
 function showSection(sectionId){
-  document.getElementById("menu").style.display = "none";
-  document.getElementById(sectionId).style.display = "block";
+  document.querySelectorAll(".section").forEach(s => s.style.display="none");
+  document.getElementById("menu").style.display="none";
+  document.getElementById(sectionId).style.display="block";
+}
+
+function returnMenu(){
+  document.querySelectorAll(".section").forEach(s => s.style.display="none");
+  document.getElementById("menu").style.display="block";
 }
 
 function checkText(inputId, correctAnswer){
@@ -153,16 +215,15 @@ function checkText(inputId, correctAnswer){
 
   if(userAnswer === expected){
     feedback.innerHTML = "<span class='correct'>✅ Correct</span>";
-  } else {
+  } else{
     feedback.innerHTML =
       "<span class='wrong'>❌ Incorrect</span><br>" +
       "Correct answer: <b>" + correctAnswer + "</b>";
   }
-}
 
-function finishSection(){
-  alert("✅ Section completed.\nYou will be redirected to the main menu.");
-  location.reload();
+  setTimeout(() => {
+    returnMenu();
+  }, 1500);
 }
 
 </script>
