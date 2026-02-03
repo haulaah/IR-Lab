@@ -1,1 +1,30 @@
+{
+  "lastUpdated": "Not started",
+  "teams": [
+    {
+      "teamId": "team-alpha",
+      "teamName": "Team Alpha",
+      "currentPhase": "Detection & Analysis",
+      "phases": {
+        "detection_analysis": { "completed": false },
+        "containment": { "completed": false },
+        "eradication": { "completed": false },
+        "recovery": { "completed": false },
+        "post_incident": { "completed": false }
+      }
+    },
+    {
+      "teamId": "team-bravo",
+      "teamName": "Team Bravo",
+      "currentPhase": "Detection & Analysis",
+      "phases": {
+        "detection_analysis": { "completed": false },
+        "containment": { "completed": false },
+        "eradication": { "completed": false },
+        "recovery": { "completed": false },
+        "post_incident": { "completed": false }
+      }
+    }
+  ]
+}
 
