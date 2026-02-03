@@ -1,1 +1,19 @@
+{
+  "leaderboard": [
+    {
+      "rank": 1,
+      "teamName": "Team Alpha",
+      "score": 92,
+      "time": 78,
+      "strengths": "Excellent detection and MISP usage"
+    },
+    {
+      "rank": 2,
+      "teamName": "Team Bravo",
+      "score": 85,
+      "time": 91,
+      "strengths": "Strong containment decisions"
+    }
+  ]
+}
 
