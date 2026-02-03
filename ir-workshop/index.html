@@ -25,7 +25,7 @@ header h1 {
   margin-top:5px;
 }
 
-header .logo-bar {
+header .org-logos {
   display:flex;
   justify-content:center;
   align-items:center;
@@ -34,7 +34,7 @@ header .logo-bar {
   margin-bottom:10px;
 }
 
-header .logo-bar img {
+header .org-logos img {
   max-height:50px;
 }
 
@@ -80,6 +80,20 @@ footer {
   margin-top:20px;
   font-size:0.85rem;
   color:#64748b;
+  border-top:2px solid #0d9488;
+  padding-top:10px;
+}
+
+footer .tool-logos {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:15px;
+  margin-top:10px;
+}
+
+footer .tool-logos img {
+  max-height:35px; /* small uniform size */
 }
 </style>
 </head>
@@ -87,15 +101,9 @@ footer {
 <body>
 
 <header>
-  <div class="logo-bar">
-    <!-- Organization logos -->
+  <div class="org-logos">
     <img src="images/org1.png" alt="Org 1 Logo">
     <img src="images/org2.png" alt="Org 2 Logo">
-    <!-- Tool logos -->
-    <img src="images/thehive.png" alt="TheHive Logo">
-    <img src="images/misp.png" alt="MISP Logo">
-    <img src="images/cortex.png" alt="Cortex Logo">
-    <img src="images/mattermost.png" alt="Mattermost Logo">
   </div>
   <h1>IR-LAB – Live Incident Response Progress</h1>
   <p id="lastUpdated">Last updated: --</p>
@@ -104,7 +112,13 @@ footer {
 <div id="teams"></div>
 
 <footer>
-NIST Incident Response Lifecycle • TheHive • MISP • Cortex • Mattermost
+  NIST Incident Response Lifecycle
+  <div class="tool-logos">
+    <img src="images/thehive.png" alt="TheHive Logo">
+    <img src="images/misp.png" alt="MISP Logo">
+    <img src="images/cortex.png" alt="Cortex Logo">
+    <img src="images/mattermost.png" alt="Mattermost Logo">
+  </div>
 </footer>
 
 <script>
@@ -144,7 +158,7 @@ function phase(name, completed) {
 }
 
 loadData();
-setInterval(loadData, 15000); // refresh every 15 sec
+setInterval(loadData, 15000);
 </script>
 
 </body>
