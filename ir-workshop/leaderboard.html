@@ -1,1 +1,91 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IR-LAB | Leaderboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      margin: 0;
+    }
+
+    header {
+      background: #020617;
+      padding: 1.5rem;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    main {
+      padding: 1.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    th, td {
+      padding: 0.8rem;
+      border-bottom: 1px solid #1e293b;
+      text-align: left;
+    }
+
+    th {
+      color: #38bdf8;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>IR-LAB – Team Leaderboard</h1>
+</header>
+
+<main>
+  <table>
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Team</th>
+        <th>Score</th>
+        <th>Time (min)</th>
+        <th>Strengths</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+</main>
+
+<script>
+async function loadLeaderboard() {
+  const res = await fetch("data/leaderboard.json");
+  const data = await res.json();
+
+  const rows = document.getElementById("rows");
+  rows.innerHTML = "";
+
+  data.leaderboard.forEach(team => {
+    rows.innerHTML += `
+      <tr>
+        <td>${team.rank}</td>
+        <td>${team.teamName}</td>
+        <td>${team.score}</td>
+        <td>${team.time}</td>
+        <td>${team.strengths}</td>
+      </tr>
+    `;
+  });
+}
+
+loadLeaderboard();
+</script>
+
+</body>
+</html>
