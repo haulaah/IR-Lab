@@ -3,7 +3,7 @@
   "teams": [
     {
       "teamId": "team-alpha",
-      "teamName": "Team A",
+      "teamName": "Team A1",
       "currentPhase": "Detection & Analysis",
       "phases": {
         "detection_analysis": { "completed": false },
@@ -15,7 +15,7 @@
     },
     {
       "teamId": "team-bravo",
-      "teamName": "Team B",
+      "teamName": "Team A2",
       "currentPhase": "Detection & Analysis",
       "phases": {
         "detection_analysis": { "completed": false },
