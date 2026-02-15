@@ -2,9 +2,9 @@
   "lastUpdated": "Not started",
   "teams": [
     {
-      "teamId": "team-alpha",
+      "teamId": "team-a1",
       "teamName": "Team A1",
-      "currentPhase": "Detection & Analysis",
+      "currentPhase": "Detection",
       "phases": {
         "detection_analysis": { "completed": false },
         "containment": { "completed": false },
@@ -14,9 +14,21 @@
       }
     },
     {
-      "teamId": "team-bravo",
+      "teamId": "team-a2",
       "teamName": "Team A2",
-      "currentPhase": "Detection & Analysis",
+      "currentPhase": "Detection",
+      "phases": {
+        "detection_analysis": { "completed": false },
+        "containment": { "completed": false },
+        "eradication": { "completed": false },
+        "recovery": { "completed": false },
+        "post_incident": { "completed": false }
+      }
+    },
+    {
+      "teamId": "team-a3",
+      "teamName": "Team A3",
+      "currentPhase": "Detection",
       "phases": {
         "detection_analysis": { "completed": false },
         "containment": { "completed": false },
@@ -25,6 +37,7 @@
         "post_incident": { "completed": false }
       }
     }
+    
   ]
 }
 
