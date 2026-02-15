@@ -2,17 +2,24 @@
   "leaderboard": [
     {
       "rank": 1,
-      "teamName": "Team A",
+      "teamName": "Team A1",
       "score": 6,
       "time": 78,
       "strengths": "Great Recovery and IoC correlation"
     },
     {
       "rank": 2,
-      "teamName": "Team B",
+      "teamName": "Team A3",
       "score": 5,
       "time": 91,
       "strengths": "Strong containment decisions"
+    },
+    {
+      "rank": 3,
+      "teamName": "Team A2",
+      "score": 6,
+      "time": 98,
+      "strengths": "Good Post incident reviews"
     }
   ]
 }
