@@ -3,23 +3,23 @@
     {
       "rank": 1,
       "teamName": "Team A1",
-      "score": 6,
-      "time": 78,
-      "strengths": "Great Recovery and IoC correlation"
+      "score": 0,
+      "time": 0,
+      "strengths": "/"
     },
     {
       "rank": 2,
-      "teamName": "Team A3",
-      "score": 5,
-      "time": 91,
-      "strengths": "Strong containment decisions"
+      "teamName": "Team A2",
+      "score": 0,
+      "time": 0,
+      "strengths": "/"
     },
     {
       "rank": 3,
-      "teamName": "Team A2",
-      "score": 6,
-      "time": 98,
-      "strengths": "Good Post incident reviews"
+      "teamName": "Team A3",
+      "score": 0,
+      "time": 0,
+      "strengths": "/"
     }
   ]
 }
