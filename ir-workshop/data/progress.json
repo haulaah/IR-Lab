@@ -6,7 +6,8 @@
       "teamName": "Team A1",
       "currentPhase": "Detection",
       "phases": {
-        "detection_analysis": { "completed": false },
+        "detection": { "completed": false },
+        "analysis": { "completed": false },
         "containment": { "completed": false },
         "eradication": { "completed": false },
         "recovery": { "completed": false },
@@ -18,7 +19,8 @@
       "teamName": "Team A2",
       "currentPhase": "Detection",
       "phases": {
-        "detection_analysis": { "completed": false },
+        "detection": { "completed": false },
+        "analysis": { "completed": false },
         "containment": { "completed": false },
         "eradication": { "completed": false },
         "recovery": { "completed": false },
@@ -30,7 +32,8 @@
       "teamName": "Team A3",
       "currentPhase": "Detection",
       "phases": {
-        "detection_analysis": { "completed": false },
+        "detection": { "completed": false },
+        "analysis": { "completed": false },
         "containment": { "completed": false },
         "eradication": { "completed": false },
         "recovery": { "completed": false },
