@@ -147,7 +147,8 @@ async function loadData() {
       <h2>${team.teamName}</h2>
       <div class="current-phase">Current phase: ${team.currentPhase}</div>
       <ul>
-        ${phase("Detection & Analysis", team.phases.detection_analysis.completed)}
+        ${phase("Detection", team.phases.detection.completed)}
+        ${phase("Analysis", team.phases.analysis.completed)}
         ${phase("Containment", team.phases.containment.completed)}
         ${phase("Eradication", team.phases.eradication.completed)}
         ${phase("Recovery", team.phases.recovery.completed)}
