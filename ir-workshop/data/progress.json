@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "15:43 24/02/2026",
+  "lastUpdated": "15:53 24/02/2026",
   "teams": [
     {
       "teamId": "team-a1",
@@ -17,14 +17,14 @@
     {
       "teamId": "team-a2",
       "teamName": "Team A2",
-      "currentPhase": "Post Incident Activity",
+      "currentPhase": "Case Closed",
       "phases": {
         "detection": { "completed": true },
         "analysis": { "completed": true },
         "containment": { "completed": true },
         "eradication": { "completed": true },
         "recovery": { "completed": true },
-        "post_incident": { "completed": false }
+        "post_incident": { "completed": true }
       }
     },
     {
