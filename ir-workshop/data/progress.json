@@ -4,7 +4,7 @@
     {
       "teamId": "team-a1",
       "teamName": "Team A1",
-      "currentPhase": "Post Incident Activity",
+      "currentPhase": "Case Closed",
       "phases": {
         "detection": { "completed": true },
         "analysis": { "completed": true },
