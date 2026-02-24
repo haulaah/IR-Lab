@@ -17,12 +17,12 @@
     {
       "teamId": "team-a2",
       "teamName": "Team A2",
-      "currentPhase": "Containment",
+      "currentPhase": "Eradication",
       "phases": {
         "detection": { "completed": true },
         "analysis": { "completed": true },
         "containment": { "completed": true },
-        "eradication": { "completed": false },
+        "eradication": { "completed": true },
         "recovery": { "completed": false },
         "post_incident": { "completed": false }
       }
@@ -30,14 +30,14 @@
     {
       "teamId": "team-a3",
       "teamName": "Team A3",
-      "currentPhase": "Recovery",
+      "currentPhase": "Post Incident Activity",
       "phases": {
         "detection": { "completed": true },
         "analysis": { "completed": true },
         "containment": { "completed": true },
         "eradication": { "completed": true },
         "recovery": { "completed": true },
-        "post_incident": { "completed": false }
+        "post_incident": { "completed": true }
       }
     }
     
