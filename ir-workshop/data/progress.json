@@ -4,9 +4,9 @@
     {
       "teamId": "team-a1",
       "teamName": "Team A1",
-      "currentPhase": "Detection",
+      "currentPhase": "Analysis",
       "phases": {
-        "detection": { "completed": false },
+        "detection": { "completed": true },
         "analysis": { "completed": false },
         "containment": { "completed": false },
         "eradication": { "completed": false },
