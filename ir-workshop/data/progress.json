@@ -1,15 +1,15 @@
 {
-  "lastUpdated": "15:12 24/02/2-26",
+  "lastUpdated": "15:14 24/02/2026",
   "teams": [
     {
       "teamId": "team-a1",
       "teamName": "Team A1",
-      "currentPhase": "Containment",
+      "currentPhase": "Eradication",
       "phases": {
         "detection": { "completed": true },
         "analysis": { "completed": true },
         "containment": { "completed": true },
-        "eradication": { "completed": false },
+        "eradication": { "completed": true },
         "recovery": { "completed": false },
         "post_incident": { "completed": false }
       }
@@ -30,11 +30,11 @@
     {
       "teamId": "team-a3",
       "teamName": "Team A3",
-      "currentPhase": "Analysis",
+      "currentPhase": "Containment",
       "phases": {
         "detection": { "completed": true },
         "analysis": { "completed": true },
-        "containment": { "completed": false },
+        "containment": { "completed": true },
         "eradication": { "completed": false },
         "recovery": { "completed": false },
         "post_incident": { "completed": false }
