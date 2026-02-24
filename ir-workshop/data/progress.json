@@ -17,10 +17,10 @@
     {
       "teamId": "team-a2",
       "teamName": "Team A2",
-      "currentPhase": "Detection",
+      "currentPhase": "Analysis",
       "phases": {
         "detection": { "completed": true },
-        "analysis": { "completed": false },
+        "analysis": { "completed": true },
         "containment": { "completed": false },
         "eradication": { "completed": false },
         "recovery": { "completed": false },
@@ -30,10 +30,10 @@
     {
       "teamId": "team-a3",
       "teamName": "Team A3",
-      "currentPhase": "Detection",
+      "currentPhase": "Analysis",
       "phases": {
         "detection": { "completed": true },
-        "analysis": { "completed": false },
+        "analysis": { "completed": true },
         "containment": { "completed": false },
         "eradication": { "completed": false },
         "recovery": { "completed": false },
