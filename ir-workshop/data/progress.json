@@ -1,10 +1,10 @@
 {
-  "lastUpdated": "15:30 24/02/2026",
+  "lastUpdated": "15:43 24/02/2026",
   "teams": [
     {
       "teamId": "team-a1",
       "teamName": "Team A1",
-      "currentPhase": "Post Incidenet Activity",
+      "currentPhase": "Post Incident Activity",
       "phases": {
         "detection": { "completed": true },
         "analysis": { "completed": true },
@@ -17,20 +17,20 @@
     {
       "teamId": "team-a2",
       "teamName": "Team A2",
-      "currentPhase": "Eradication",
+      "currentPhase": "Post Incident Activity",
       "phases": {
         "detection": { "completed": true },
         "analysis": { "completed": true },
         "containment": { "completed": true },
         "eradication": { "completed": true },
-        "recovery": { "completed": false },
+        "recovery": { "completed": true },
         "post_incident": { "completed": false }
       }
     },
     {
       "teamId": "team-a3",
       "teamName": "Team A3",
-      "currentPhase": "Post Incident Activity",
+      "currentPhase": "Case closed",
       "phases": {
         "detection": { "completed": true },
         "analysis": { "completed": true },
