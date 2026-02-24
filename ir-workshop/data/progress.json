@@ -4,11 +4,11 @@
     {
       "teamId": "team-a1",
       "teamName": "Team A1",
-      "currentPhase": "Analysis",
+      "currentPhase": "Containment",
       "phases": {
         "detection": { "completed": true },
         "analysis": { "completed": true },
-        "containment": { "completed": false },
+        "containment": { "completed": true },
         "eradication": { "completed": false },
         "recovery": { "completed": false },
         "post_incident": { "completed": false }
