@@ -1,12 +1,12 @@
 {
-  "lastUpdated": "Not start",
+  "lastUpdated": "Not started",
   "teams": [
     {
       "teamId": "team-a1",
       "teamName": "Team A1",
-      "currentPhase": "Analysis",
+      "currentPhase": "Detection",
       "phases": {
-        "detection": { "completed": true },
+        "detection": { "completed": false },
         "analysis": { "completed": false },
         "containment": { "completed": false },
         "eradication": { "completed": false },
