@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "15:14 24/02/2026",
+  "lastUpdated": "15:19 24/02/2026",
   "teams": [
     {
       "teamId": "team-a1",
@@ -30,12 +30,12 @@
     {
       "teamId": "team-a3",
       "teamName": "Team A3",
-      "currentPhase": "Containment",
+      "currentPhase": "Eradication",
       "phases": {
         "detection": { "completed": true },
         "analysis": { "completed": true },
         "containment": { "completed": true },
-        "eradication": { "completed": false },
+        "eradication": { "completed": true },
         "recovery": { "completed": false },
         "post_incident": { "completed": false }
       }
