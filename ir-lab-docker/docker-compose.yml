@@ -1,0 +1,265 @@
+# =============================================================================
+# IR Lab — combined stack (TheHive + Cortex + MISP + Mattermost)
+#
+# All services share the default Compose network, so they reach each other by
+# service name (e.g. http://cortex:9001, http://misp). Bring the whole lab up
+# with a single command:
+#
+#     docker compose up -d
+#
+# (Run ./setup.sh first — it sets the Elasticsearch kernel parameter and creates
+#  the Cortex jobs directory, which Compose can't do on its own.)
+# =============================================================================
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # TheHive — SIRP (case / alert / task management)
+  # backed by Cassandra (data), Elasticsearch (index), MinIO (S3 attachments)
+  # ---------------------------------------------------------------------------
+  thehive:
+    image: strangebee/thehive:5.2
+    depends_on:
+      - cassandra
+      - elasticsearch-thehive
+      - minio
+    mem_limit: 1500m
+    ports:
+      - "9000:9000"
+    environment:
+      - JVM_OPTS="-Xms1024M -Xmx1024M"
+    command:
+      - --secret
+      - "mySecretForTheHive"
+      - "--cql-hostnames"
+      - "cassandra"
+      - "--index-backend"
+      - "elasticsearch"
+      - "--es-hostnames"
+      - "elasticsearch-thehive"
+      - "--s3-endpoint"
+      - "http://minio:9000"
+      - "--s3-access-key"
+      - "minioadmin"
+      - "--s3-secret-key"
+      - "minioadmin"
+      - "--s3-bucket"
+      - "thehive"
+      - "--s3-use-path-access-style"
+
+  cassandra:
+    image: cassandra:4
+    mem_limit: 1600m
+    ports:
+      - "9042:9042"
+    environment:
+      - MAX_HEAP_SIZE=1024M
+      - HEAP_NEWSIZE=1024M
+      - CASSANDRA_CLUSTER_NAME=TheHive
+    volumes:
+      - cassandradata:/var/lib/cassandra
+    restart: on-failure
+
+  elasticsearch-thehive:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.12
+    mem_limit: 1500m
+    ports:
+      - "9200:9200"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    volumes:
+      - elasticsearchdata:/usr/share/elasticsearch/data
+
+  minio:
+    image: quay.io/minio/minio
+    mem_limit: 512m
+    command: ["minio", "server", "/data", "--console-address", ":9090"]
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    ports:
+      - "9090:9090"
+    volumes:
+      - miniodata:/data
+
+  # ---------------------------------------------------------------------------
+  # Cortex — observable analysis engine (runs analyzers/responders)
+  # Cortex connects to its Elasticsearch by the default hostname "elasticsearch".
+  # It mounts the Docker socket so it can launch analyzer CONTAINERS; the jobs
+  # directory MUST use an identical host:container path for that to work.
+  # ---------------------------------------------------------------------------
+  cortex:
+    image: thehiveproject/cortex:3.1.1
+    environment:
+      - job_directory=/home/lab/cortex/jobs
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/lab/cortex/jobs:/home/lab/cortex/jobs
+    depends_on:
+      - elasticsearch
+    ports:
+      - "0.0.0.0:9001:9001"
+
+  elasticsearch:
+    image: elasticsearch:7.9.1
+    environment:
+      - http.host=0.0.0.0
+      - discovery.type=single-node
+      - script.allowed_types=inline
+      - thread_pool.search.queue_size=100000
+      - thread_pool.write.queue_size=10000
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    volumes:
+      - cortex_esdata:/usr/share/elasticsearch/data
+
+  # ---------------------------------------------------------------------------
+  # MISP — threat intelligence platform
+  # backed by MariaDB + Redis, with the misp-modules enrichment service.
+  # Reachable from other containers at http://misp (port 80).
+  # ---------------------------------------------------------------------------
+  mysql:
+    image: mariadb:11.2
+    restart: always
+    container_name: misp-mysql
+    tmpfs:
+      - /tmp
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: misp
+      MYSQL_USER: misp
+      MYSQL_PASSWORD: password        # change for anything beyond a local lab
+      MYSQL_ROOT_PASSWORD: password    # change for anything beyond a local lab
+
+  redis:
+    image: redis:7.2
+    restart: always
+    container_name: misp-redis
+    volumes:
+      - redis_data:/data
+
+  misp-modules:
+    image: ghcr.io/nukib/misp-modules:latest
+    restart: always
+    container_name: misp-modules
+    cap_drop:
+      - NET_RAW
+      - SYS_CHROOT
+      - MKNOD
+      - NET_BIND_SERVICE
+      - AUDIT_WRITE
+      - SETFCAP
+
+  misp:
+    image: ${MISP_IMAGE-ghcr.io/nukib/misp:latest}
+    restart: always
+    container_name: misp
+    depends_on:
+      - mysql
+      - redis
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - NET_RAW
+      - SYS_CHROOT
+      - MKNOD
+      - AUDIT_WRITE
+      - SETFCAP
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_LOGIN: misp
+      MYSQL_PASSWORD: password         # change for anything beyond a local lab
+      MYSQL_DATABASE: misp
+      REDIS_HOST: redis
+      MISP_BASEURL: http://${HOST_IP:-localhost}:8080
+      MISP_UUID: 0a674a5a-c4cb-491d-80cf-5adb48b5c1cd   # change for production
+      MISP_ORG: Testing org                              # change for production
+      MISP_MODULE_URL: http://misp-modules
+      MISP_EMAIL: ahoj@example.com                       # change for production
+      SECURITY_SALT: PleaseChangeForProduction           # change for production
+      ZEROMQ_ENABLED: "true"
+      SYSLOG_ENABLED: "false"
+      ECS_LOG_ENABLED: "true"
+      MISP_DEBUG: "true"
+    volumes:
+      - misp_logs:/var/www/MISP/app/tmp/logs/
+      - misp_certs:/var/www/MISP/app/files/certs/
+      - misp_attachments:/var/www/MISP/app/attachments/
+      - misp_img_orgs:/var/www/MISP/app/webroot/img/orgs/
+      - misp_img_custom:/var/www/MISP/app/webroot/img/custom/
+      - misp_gnupg:/var/www/MISP/.gnupg/
+    ports:
+      - "8080:80"                  # exposed on all interfaces -> reachable at <PUBLIC_IP>:8080
+      - "127.0.0.1:50000:50000"    # ZeroMQ kept local; only expose if a remote client needs it
+
+  # ---------------------------------------------------------------------------
+  # Mattermost — team chat / coordination, backed by PostgreSQL.
+  # Uses named volumes (no host mkdir/chown needed).
+  # ---------------------------------------------------------------------------
+  postgres:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 100
+    environment:
+      - TZ=UTC
+      - POSTGRES_USER=mmuser
+      - POSTGRES_PASSWORD=mmuser_password
+      - POSTGRES_DB=mattermost
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  mattermost:
+    depends_on:
+      - postgres
+    image: mattermost/mattermost-team-edition:10.11
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 200
+    read_only: false
+    tmpfs:
+      - /tmp
+    ports:
+      - "8065:8065"
+      - "8443:8443"
+    volumes:
+      - mattermost_config:/mattermost/config:rw
+      - mattermost_data:/mattermost/data:rw
+      - mattermost_logs:/mattermost/logs:rw
+      - mattermost_plugins:/mattermost/plugins:rw
+      - mattermost_client_plugins:/mattermost/client/plugins:rw
+      - mattermost_bleve:/mattermost/bleve-indexes:rw
+    environment:
+      - TZ=UTC
+      - MM_SQLSETTINGS_DRIVERNAME=postgres
+      - MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:mmuser_password@postgres:5432/mattermost?sslmode=disable&connect_timeout=10
+      - MM_BLEVESETTINGS_INDEXDIR=/mattermost/bleve-indexes
+      - MM_SERVICESETTINGS_SITEURL=http://${HOST_IP:-localhost}:8065
+
+volumes:
+  # TheHive
+  miniodata:
+  cassandradata:
+  elasticsearchdata:
+  # Cortex
+  cortex_esdata:
+  # MISP
+  mysql_data:
+  redis_data:
+  misp_logs:
+  misp_certs:
+  misp_attachments:
+  misp_img_orgs:
+  misp_img_custom:
+  misp_gnupg:
+  # Mattermost
+  pgdata:
+  mattermost_config:
+  mattermost_data:
+  mattermost_logs:
+  mattermost_plugins:
+  mattermost_client_plugins:
+  mattermost_bleve:
