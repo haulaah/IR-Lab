@@ -24,14 +24,8 @@ chmod +x setup.sh
 
 `setup.sh` sets the Elasticsearch kernel parameter (`vm.max_map_count`), creates the Cortex jobs
 directory, pulls the images, and runs `docker compose up -d`. First boot takes a few minutes while
-databases initialize and TheHive migrates its schema.
+databases initialise.
 
-Manual alternative:
-```bash
-sudo sysctl -w vm.max_map_count=262144
-sudo mkdir -p /home/lab/cortex/jobs && sudo chmod -R 777 /home/lab/cortex/jobs
-docker compose up -d
-```
 
 ## Configuration
 
@@ -55,7 +49,7 @@ Replace `<HOST>` with `localhost` (local) or your server IP.
 | Tool        | URL                   | First login                        |
 |-------------|-----------------------|------------------------------------|
 | TheHive     | `http://<HOST>:9000`  | `admin@thehive.local` / `secret`   |
-| Cortex      | `http://<HOST>:9001`  | create super-admin on first visit  |
+| Cortex      | `http://<HOST>:9001`  | `superadmin` / `Changeme123`  |
 | MISP        | `http://<HOST>:8080`  | `admin@admin.test` / `admin`       |
 | Mattermost  | `http://<HOST>:8065`  | create admin on first visit        |
 
