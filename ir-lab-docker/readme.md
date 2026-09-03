@@ -12,7 +12,7 @@ A **simulated incident response (IR) environment**
 | **Mattermost**| `mattermost-team-edition:10.11`  | Team chat: participant communication during the response|
 
 All four tools (and their databases) share one Docker network, so they reach each other by name
-(e.g. `http://cortex:9001`, `http://misp`) — which is what makes the integrations work.
+(e.g. `http://cortex:9001`) which is what makes the integrations work.
 
 ## Quick start
 
