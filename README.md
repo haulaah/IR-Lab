@@ -4,7 +4,7 @@
 A simulated incident response (IR) environment for a research study: participants are trained,
 then respond to the same simulated security incident.
 
-The lab is built from four open-source tools — **TheHive**, **Cortex**, **MISP**, and
+The lab is built from four open-source tools: **TheHive**, **Cortex**, **MISP**, and
 **Mattermost** and run with Docker.
 See [`ir-lab-docker/`](./ir-lab-docker/) to deploy it.
 
@@ -22,10 +22,10 @@ Knowledge Base* prototype, producing a knowledge graph for IR process activities
 ## Cyber Defender: Incident Response Lab
 
 <p align="center">
-  <img src="./logo.png" alt="Incident Response Lab" width="250">
+  <img src="./logo.png" alt="Incident Response Lab" width="600">
 </p>
 
 Exhibited at the **CyberWise** event for school children, where our stand gave students hands-on
 access to an IR tool and guided them through tasks as simulated defenders of an organisation under
 attack and entering findings on a tablet website while a live tool environment and step by step
-posters supported them.
+posters supported them. https://haulaah.github.io/IR-Lab/
