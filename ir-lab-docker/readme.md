@@ -75,7 +75,7 @@ Replace `<HOST>` with `localhost` (local) or your server IP.
 | Tool        | URL                   | First login                        |
 |-------------|-----------------------|------------------------------------|
 | TheHive     | `http://<HOST>:9000`  | `admin@thehive.local` / `secret`   |
-| Cortex      | `http://<HOST>:9001`  | `superadmin` / `Changeme123`  |
+| Cortex      | `http://<HOST>:9001`  | `create admin on first visit  |
 | MISP        | `http://<HOST>:8080`  | `admin@admin.test` / `admin`       |
 | Mattermost  | `http://<HOST>:8065`  | create admin on first visit        |
 
