@@ -1,6 +1,22 @@
+# =============================================================================
+# IR Lab — combined stack (TheHive + Cortex + MISP + Mattermost)
+#
+# All services share the default Compose network, so they reach each other by
+# service name (e.g. http://cortex:9001, http://misp). Bring the whole lab up
+# with a single command:
+#
+#     docker compose up -d
+#
+# (Run ./setup.sh first — it sets the Elasticsearch kernel parameter and creates
+#  the Cortex jobs directory, which Compose can't do on its own.)
+# =============================================================================
 
 services:
 
+  # ---------------------------------------------------------------------------
+  # TheHive — SIRP (case / alert / task management)
+  # backed by Cassandra (data), Elasticsearch (index), MinIO (S3 attachments)
+  # ---------------------------------------------------------------------------
   thehive:
     image: strangebee/thehive:5.2
     depends_on:
@@ -67,6 +83,12 @@ services:
     volumes:
       - miniodata:/data
 
+  # ---------------------------------------------------------------------------
+  # Cortex — observable analysis engine (runs analyzers/responders)
+  # Cortex connects to its Elasticsearch by the default hostname "elasticsearch".
+  # It mounts the Docker socket so it can launch analyzer CONTAINERS; the jobs
+  # directory MUST use an identical host:container path for that to work.
+  # ---------------------------------------------------------------------------
   cortex:
     image: thehiveproject/cortex:3.1.1
     environment:
@@ -79,6 +101,10 @@ services:
     ports:
       - "0.0.0.0:9001:9001"
 
+  # One-shot bootstrap: waits for Cortex, migrates the DB, and creates the
+  # super-admin so you never see "user init not found". Runs once; harmless on
+  # re-runs (the create call is ignored if the admin already exists).
+  # Change the login/password below if you want different credentials.
   cortex-init:
     image: curlimages/curl:8.10.1
     depends_on:
@@ -111,6 +137,11 @@ services:
     volumes:
       - cortex_esdata:/usr/share/elasticsearch/data
 
+  # ---------------------------------------------------------------------------
+  # MISP — threat intelligence platform
+  # backed by MariaDB + Redis, with the misp-modules enrichment service.
+  # Reachable from other containers at http://misp (port 80).
+  # ---------------------------------------------------------------------------
   mysql:
     image: mariadb:11.2
     restart: always
@@ -122,8 +153,8 @@ services:
     environment:
       MYSQL_DATABASE: misp
       MYSQL_USER: misp
-      MYSQL_PASSWORD: password        
-      MYSQL_ROOT_PASSWORD: password    
+      MYSQL_PASSWORD: password        # change for anything beyond a local lab
+      MYSQL_ROOT_PASSWORD: password    # change for anything beyond a local lab
 
   redis:
     image: redis:7.2
@@ -162,15 +193,15 @@ services:
     environment:
       MYSQL_HOST: mysql
       MYSQL_LOGIN: misp
-      MYSQL_PASSWORD: password         
+      MYSQL_PASSWORD: password         # change for anything beyond a local lab
       MYSQL_DATABASE: misp
       REDIS_HOST: redis
       MISP_BASEURL: http://${HOST_IP:-localhost}:8080
-      MISP_UUID: 0a674a5a-c4cb-491d-80cf-5adb48b5c1cd  
-      MISP_ORG: Testing org                              
+      MISP_UUID: 0a674a5a-c4cb-491d-80cf-5adb48b5c1cd   # change for production
+      MISP_ORG: Testing org                              # change for production
       MISP_MODULE_URL: http://misp-modules
-      MISP_EMAIL: ahoj@example.com                       
-      SECURITY_SALT: PleaseChangeForProduction          
+      MISP_EMAIL: ahoj@example.com                       # change for production
+      SECURITY_SALT: PleaseChangeForProduction           # change for production
       ZEROMQ_ENABLED: "true"
       SYSLOG_ENABLED: "false"
       ECS_LOG_ENABLED: "true"
@@ -183,10 +214,13 @@ services:
       - misp_img_custom:/var/www/MISP/app/webroot/img/custom/
       - misp_gnupg:/var/www/MISP/.gnupg/
     ports:
-      - "8080:80"                 
-      - "127.0.0.1:50000:50000"    
+      - "8080:80"                  # exposed on all interfaces -> reachable at <PUBLIC_IP>:8080
+      - "127.0.0.1:50000:50000"    # ZeroMQ kept local; only expose if a remote client needs it
 
-
+  # ---------------------------------------------------------------------------
+  # Mattermost — team chat / coordination, backed by PostgreSQL.
+  # Uses named volumes (no host mkdir/chown needed).
+  # ---------------------------------------------------------------------------
   postgres:
     image: postgres:17-alpine
     restart: unless-stopped
