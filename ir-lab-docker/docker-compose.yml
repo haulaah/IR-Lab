@@ -198,7 +198,7 @@ services:
   # Uses named volumes (no host mkdir/chown needed).
   # ---------------------------------------------------------------------------
   postgres:
-    image: postgres:18-alpine
+    image: postgres:17-alpine
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
