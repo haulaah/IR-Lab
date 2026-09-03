@@ -6,10 +6,10 @@ A **simulated incident response (IR) environment**
 
 | Tool          | Image                            | Role                                                    |
 |---------------|----------------------------------|---------------------------------------------------------|
-| **TheHive**   | `strangebee/thehive:5.2`         | Incident response platform (SIRP) — cases, alerts, tasks |
-| **Cortex**    | `thehiveproject/cortex:3.1.1`    | Analysis engine — runs analyzers/responders on IoCs      |
-| **MISP**      | `ghcr.io/nukib/misp`             | Threat intelligence — storing/sharing/correlating IoCs   |
-| **Mattermost**| `mattermost-team-edition:10.11`  | Team chat — participant communication during the response|
+| **TheHive**   | `strangebee/thehive:5.2`         | Case management system: cases, case tasks, oobservables etc |
+| **Cortex**    | `thehiveproject/cortex:3.1.1`    | Observables analysis: runs analysers/responders on IoCs      |
+| **MISP**      | `ghcr.io/nukib/misp`             | Threat intelligence: storing/sharing/correlating security eventnts, IoCs   |
+| **Mattermost**| `mattermost-team-edition:10.11`  | Team chat: participant communication during the response|
 
 All four tools (and their databases) share one Docker network, so they reach each other by name
 (e.g. `http://cortex:9001`, `http://misp`) — which is what makes the integrations work.
@@ -66,10 +66,10 @@ MISP ZeroMQ `50000` (localhost), Mattermost calls `8443`.
 
 Use **service names** internally (everything is on one network):
 
-1. **Cortex** — create the super-admin, an org, and a user; enable the analyzers you want;
+1. **Cortex** : create the super-admin, an org, and a user; enable the analyzers you want;
    generate a **Cortex API key**.
-2. **TheHive → Cortex** — add `http://cortex:9001` and the API key in TheHive.
-3. **Cortex / TheHive → MISP** — create a MISP **Auth Key**, then add `http://misp` + the key to
+2. **TheHive → Cortex** : add `http://cortex:9001` and the API key in TheHive.
+3. **Cortex / TheHive → MISP** : create a MISP **Auth Key**, then add `http://misp` + the key to
    Cortex (MISP analyzer) and/or TheHive (import events as alerts).
 4. **Mattermost** — create the channels participants will use.
 
@@ -91,14 +91,4 @@ The lab runs the same on any Ubuntu VM. Beyond `./setup.sh`, you only need to:
 2. Open the firewall for TCP `9000, 9001, 8080, 8065` (and `8443` if using Mattermost calls),
    ideally restricted to the source networks your participants use.
 
-## Requirements
 
-Docker Engine 20.10+ with the Compose v2 plugin, **~16 GB RAM** (the stack uses ~10–12 GB warmed
-up), ~20 GB disk, on Linux (Cortex mounts the Docker socket to launch analyzer containers).
-
-## Security notes
-
-For **isolated research/lab use**. Defaults are insecure for convenience — TheHive secret
-`mySecretForTheHive`, MinIO `minioadmin/minioadmin`, MISP DB `password`, Mattermost
-`mmuser_password`, and `MISP_DEBUG` is on. **Change all of these, turn off debug, and restrict
-access with a firewall before any internet-facing deployment.** 
