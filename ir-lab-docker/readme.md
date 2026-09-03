@@ -18,7 +18,7 @@ All four tools (and their databases) share one Docker network, so they reach eac
 
 ```bash
 cd ir-lab-docker
-chmod +x setup.sh   # make the script executable (needed after a fresh clone/upload)
+chmod +x setup.sh   
 ./setup.sh
 ```
 
@@ -71,7 +71,6 @@ Use **service names** internally (everything is on one network):
 2. **TheHive → Cortex** : add `http://cortex:9001` and the API key in TheHive.
 3. **Cortex / TheHive → MISP** : create a MISP **Auth Key**, then add `http://misp` + the key to
    Cortex (MISP analyzer) and/or TheHive (import events as alerts).
-4. **Mattermost** — create the channels participants will use.
 
 ## Managing / resetting
 
@@ -88,7 +87,6 @@ docker compose down -v       # FULL RESET — wipes all data for a fresh partici
 The lab runs the same on any Ubuntu VM. Beyond `./setup.sh`, you only need to:
 
 1. Set `HOST_IP` to the server's public IP (see Configuration).
-2. Open the firewall for TCP `9000, 9001, 8080, 8065` (and `8443` if using Mattermost calls),
-   ideally restricted to the source networks your participants use.
+2. Open the firewall for TCP `9000, 9001, 8080, 8065` 
 
 
