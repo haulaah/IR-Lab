@@ -1,6 +1,3 @@
-<p align="center">
-  <img src="./logo.png" alt="Incident Response Lab" width="180">
-</p>
 
 # Incident Response Lab
 
@@ -23,6 +20,10 @@ Knowledge Base* prototype, producing a knowledge graph for IR process activities
 - [Graph Analysis of Incident Response Process Activities and Communications](https://link.springer.com/chapter/10.1007/978-3-032-35579-9_22) — H. S. Galadima, C. Doherty, R. Brennan. *ARES (GRASEC)*, 2026.
 
 ## Cyber Defender: Incident Response Lab
+
+<p align="center">
+  <img src="./logo.png" alt="Incident Response Lab" width="250">
+</p>
 
 Exhibited at the **CyberWise** event for school children, where our stand gave students hands-on
 access to an IR tool and guided them through tasks as simulated defenders of an organisation under
