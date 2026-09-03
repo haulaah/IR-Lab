@@ -29,7 +29,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.
 sudo apt update && \
 sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin && \
 sudo usermod -aG docker $USER && \
-echo "Docker installed. Run 'newgrp docker' (or log out/in), then 'docker run hello-world'."
+echo "Docker installed."
 ```
 
 Then apply the docker group and verify:
@@ -42,6 +42,7 @@ docker run hello-world   # should print "Hello from Docker!"
 ## Quick start
 
 ```bash
+git clone https://github.com/haulaah/IR-Lab.git
 cd ir-lab-docker
 chmod +x setup.sh   
 ./setup.sh
