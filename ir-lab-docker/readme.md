@@ -1,6 +1,6 @@
 # IR Lab
 
- **A simulated incident response (IR) environment** 
+ **Virtual Incident Response (IR) environment** 
 
 ## The stack
 
