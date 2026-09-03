@@ -1,6 +1,6 @@
 # IR Lab
 
-A **simulated incident response (IR) environment** 
+ **A simulated incident response (IR) environment** 
 
 ## The stack
 
@@ -13,6 +13,31 @@ A **simulated incident response (IR) environment**
 
 All four tools (and their databases) share one Docker network, so they reach each other by name
 (e.g. `http://cortex:9001`) which is what makes the integrations work.
+
+
+## Prerequisite: install Docker
+
+If Docker and the Compose plugin are not installed yet, run this once on the Ubuntu host:
+
+```bash
+sudo apt update && sudo apt upgrade -y && \
+sudo apt install -y ca-certificates curl gnupg lsb-release && \
+sudo mkdir -p /etc/apt/keyrings && \
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg && \
+sudo chmod a+r /etc/apt/keyrings/docker.gpg && \
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+sudo apt update && \
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin && \
+sudo usermod -aG docker $USER && \
+echo "Docker installed. Run 'newgrp docker' (or log out/in), then 'docker run hello-world'."
+```
+
+Then apply the docker group and verify:
+
+```bash
+newgrp docker            # or log out and back in
+docker run hello-world   # should print "Hello from Docker!"
+```
 
 ## Quick start
 
