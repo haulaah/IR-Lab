@@ -1,7 +1,7 @@
 
 # Incident Response Lab
 
-A simulated incident response (IR) environment for a research study: participants are trained,
+A simulated incident response (IR) exercise for a research study: participants are trained,
 then respond to the same simulated security incident.
 
 The lab is built from four open-source tools: **TheHive**, **Cortex**, **MISP**, and
@@ -16,8 +16,8 @@ Knowledge Base* prototype, producing a knowledge graph for IR process activities
 
 **Publications**
 
-- [Semantic Log Aggregation for a Machine-Readable Knowledge Base of Incident Response Activities](https://ieeexplore.ieee.org/abstract/document/11384833) — H. S. Galadima, C. Doherty, R. Brennan. *IEEE Cyber-RCI*, 2025.
-- [Graph Analysis of Incident Response Process Activities and Communications](https://link.springer.com/chapter/10.1007/978-3-032-35579-9_22) — H. S. Galadima, C. Doherty, R. Brennan. *ARES (GRASEC)*, 2026.
+- [Semantic Log Aggregation for a Machine-Readable Knowledge Base of Incident Response Activities](https://ieeexplore.ieee.org/abstract/document/11384833)  H. S. Galadima, C. Doherty, R. Brennan. *IEEE Cyber-RCI*, 2025.
+- [Graph Analysis of Incident Response Process Activities and Communications](https://link.springer.com/chapter/10.1007/978-3-032-35579-9_22)  H. S. Galadima, C. Doherty, R. Brennan. *ARES (GRASEC)*, 2026.
 
 ## Cyber Defender: Incident Response Lab
 
