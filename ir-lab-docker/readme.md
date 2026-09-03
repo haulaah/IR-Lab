@@ -6,9 +6,9 @@
 
 | Tool          | Image                            | Role                                                    |
 |---------------|----------------------------------|---------------------------------------------------------|
-| **TheHive**   | `strangebee/thehive:5.2`         | Case management system: cases, case tasks, oobservables etc |
+| **TheHive**   | `strangebee/thehive:5.2`         | Case management system: cases, case tasks, observables etc |
 | **Cortex**    | `thehiveproject/cortex:3.1.1`    | Observables analysis: runs analysers/responders on IoCs      |
-| **MISP**      | `ghcr.io/nukib/misp`             | Threat intelligence: storing/sharing/correlating security eventnts, IoCs   |
+| **MISP**      | `ghcr.io/nukib/misp`             | Threat intelligence: storing/sharing/correlating security events, IoCs   |
 | **Mattermost**| `mattermost-team-edition:10.11`  | Team chat: participant communication during the response|
 
 All four tools (and their databases) share one Docker network, so they reach each other by name
