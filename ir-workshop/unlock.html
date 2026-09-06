@@ -15,7 +15,7 @@
 <main class="wrap">
 <div class="unlock-box">
 <h1>Unlock your credentials</h1>
-<p class="lead">Paste the personal access code your instructor gave you (it looks like <code>24-XXXXXXXXXXX</code>). Your username and password are decrypted right here in your browser &mdash; nothing readable is ever stored on this site.</p>
+<p class="lead">Paste the personal access code your instructor gave you (it looks like <code>24-XXXXXXXXXXX</code>). </p>
 <div class="field">
   <input id="code" type="text" placeholder="e.g. 24-K7QFM9WX2AB" autocomplete="off" spellcheck="false" autocapitalize="characters">
   <button id="go">Unlock</button>
@@ -76,7 +76,7 @@ function render(d){
 go.addEventListener('click',unlock);
 codeEl.addEventListener('keydown',function(e){if(e.key==='Enter')unlock();});
 </script></main>
-<footer class="foot">IR Lab workshop · 13 isolated instances · responder24–responder75@irorg.com</footer>
+<footer class="foot">IR Lab workshop </footer>
 <script>
 document.addEventListener('click',function(e){
  var b=e.target.closest('.btn-copy'); if(b){var t=b.getAttribute('data-copy');
