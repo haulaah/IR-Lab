@@ -1,0 +1,60 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tool guide · IR Lab</title>
+<link rel="stylesheet" href="assets/app.css">
+</head><body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<g id="i-copy"><rect x="9" y="9" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 15V5a2 2 0 0 1 2-2h8" fill="none" stroke="currentColor" stroke-width="1.6"/></g>
+<g id="i-ext"><path d="M14 4h6v6M20 4l-9 9M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5" fill="none" stroke="currentColor" stroke-width="1.6"/></g>
+</defs></svg>
+<header class="top"><div class="top-in">
+  <a class="brand" href="index.html"><span class="mk">IR</span>
+    <div>IR Lab Workshop<small>incident-response training environment</small></div></a>
+  <nav class="nav"><a href="index.html" class="">Home</a><a href="guide.html" class="on">Tool guide</a><a href="teams.html" class="">Teams</a><a href="unlock.html" class="">Unlock credentials</a></nav>
+</div></header>
+<main class="wrap">
+<h1>Tool guide</h1>
+<p class="lead">A fast cheat sheet for the four platforms in every team instance. No login needed to read this &mdash; get your actual credentials from the <a href="unlock.html" style="color:var(--teal-ink)">unlock page</a>.</p>
+
+    <div class="tool" style="--accent:#f2c200">
+      <div class="tool-h"><img class="tlogo" src="assets/logos/thehive.png" alt="TheHive">
+        <span class="port">port 9000</span><span class="tag">Case &amp; alert management</span></div>
+      <p class="desc">Your team&#x27;s incident cockpit. Alerts land here, become cases, and get worked through tasks and observables. Two teammates have org-admin rights; two have read access.</p>
+      <ol class="steps"><li>Open the TheHive link for your team and sign in with your responder email + password.</li><li>Go to Cases → New Case (or import an Alert). Use a case template if one exists.</li><li>Add Tasks for each work item and Observables (IPs, hashes, domains, URLs) under the Observables tab.</li><li>Select an observable and “Run analyzers” to enrich it via Cortex; flag confirmed ones as IOC.</li><li>Set TLP/PAP, tag with MITRE ATT&amp;CK, then close the case with a resolution when done.</li></ol>
+      <div class="tips"><b>Good to know.</b> Org admins manage users, case templates and the org. Read-access members can view and comment but not change case structure. Export confirmed IOCs to MISP from an observable’s menu.</div>
+    </div>
+    <div class="tool" style="--accent:#2f9bdd">
+      <div class="tool-h"><img class="tlogo" src="assets/logos/misp.png" alt="MISP">
+        <span class="port">port 8080</span><span class="tag">Threat-intelligence sharing</span></div>
+      <p class="desc">Where indicators live and correlate. Build Events full of Attributes (IOCs), tag and publish them, and pull in feeds. All four teammates are org admins.</p>
+      <ol class="steps"><li>Open the MISP link and sign in (default admin is admin@admin.test until the super admin rotates it).</li><li>Create an Event, set distribution + threat level, then add Attributes for each indicator.</li><li>Tag with TLP and Galaxy/ATT&amp;CK clusters; MISP auto-correlates matching attributes across events.</li><li>Publish the event to make it available; use Feeds to ingest external intel.</li><li>Grab your API key under My Profile → Auth keys to connect MISP with TheHive/Cortex.</li></ol>
+      <div class="tips"><b>Good to know.</b> Keep distribution tight in the lab (your organisation only). STIX/CSV export lives under an event’s download menu.</div>
+    </div>
+    <div class="tool" style="--accent:#2bb7b1">
+      <div class="tool-h"><img class="tlogo" src="assets/logos/cortex.png" alt="Cortex">
+        <span class="port">port 9001</span><span class="tag">Observable analysis &amp; response</span></div>
+      <p class="desc">The enrichment engine behind TheHive. It runs analyzers against observables and responders to take action. All four teammates are org admins here.</p>
+      <ol class="steps"><li>Open the Cortex link and log in with your responder login.</li><li>Under Organization, review enabled Analyzers and add API keys for any that need them (VirusTotal, AbuseIPDB, …).</li><li>Use Analyze to run an analyzer on a single observable, or trigger analyzers from inside TheHive.</li><li>Check the Jobs view for reports; a failed job usually means a missing API key or a rate limit.</li><li>Create an API key (Organization → Users) and paste it into TheHive so the two integrate.</li></ol>
+      <div class="tips"><b>Good to know.</b> Cortex and TheHive talk over API keys — if analyzers don’t appear in TheHive, re-check the Cortex URL and key in TheHive’s config.</div>
+    </div>
+    <div class="tool" style="--accent:#1b3a6b">
+      <div class="tool-h"><img class="tlogo" src="assets/logos/mattermost.webp" alt="Mattermost">
+        <span class="port">port 8065</span><span class="tag">Team chat &amp; coordination</span></div>
+      <p class="desc">Your team’s comms during an incident — channels, threads, file sharing. Everyone joins as a normal team member.</p>
+      <ol class="steps"><li>Open the Mattermost link and log in with your responder email (username is responder&lt;NN&gt;) + password.</li><li>Join your team and its channels; spin up a channel per incident if you like.</li><li>Use threads and @mentions to keep investigation chatter organised.</li><li>Drag in screenshots and files; use /commands for quick actions.</li><li>Keep decisions and timelines here so the whole team stays in sync.</li></ol>
+      <div class="tips"><b>Good to know.</b> Your login is your email, but your displayed username is responder&lt;NN&gt; (no @) — both appear on your unlock page.</div>
+    </div>
+<div class="warnbar" style="margin-top:26px">The four tools integrate: <b>Cortex</b> enriches observables for <b>TheHive</b>, and <b>MISP</b> exchanges IOCs with both over API keys. Set those keys up early and the workflow clicks together.</div></main>
+<footer class="foot">IR Lab workshop · 13 isolated instances · responder24–responder75@irorg.com</footer>
+<script>
+document.addEventListener('click',function(e){
+ var b=e.target.closest('.btn-copy'); if(b){var t=b.getAttribute('data-copy');
+  var d=function(){b.classList.add('done');setTimeout(function(){b.classList.remove('done')},1000)};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(d).catch(f)}else f();
+  function f(){var a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity=0;
+   document.body.appendChild(a);a.select();try{document.execCommand('copy');d()}catch(_){}document.body.removeChild(a)}
+  return}
+ var r=e.target.closest('.reveal'); if(r){var s=r.parentNode.querySelector('.secret');if(s){s.classList.toggle('show');
+  r.textContent=s.classList.contains('show')?'Hide':'Show'}}
+});
+</script></body></html>

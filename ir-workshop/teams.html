@@ -1,0 +1,30 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teams · IR Lab</title>
+<link rel="stylesheet" href="assets/app.css">
+</head><body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<g id="i-copy"><rect x="9" y="9" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 15V5a2 2 0 0 1 2-2h8" fill="none" stroke="currentColor" stroke-width="1.6"/></g>
+<g id="i-ext"><path d="M14 4h6v6M20 4l-9 9M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5" fill="none" stroke="currentColor" stroke-width="1.6"/></g>
+</defs></svg>
+<header class="top"><div class="top-in">
+  <a class="brand" href="index.html"><span class="mk">IR</span>
+    <div>IR Lab Workshop<small>incident-response training environment</small></div></a>
+  <nav class="nav"><a href="index.html" class="">Home</a><a href="guide.html" class="">Tool guide</a><a href="teams.html" class="on">Teams</a><a href="unlock.html" class="">Unlock credentials</a></nav>
+</div></header>
+<main class="wrap">
+<h1>Teams</h1>
+<p class="lead">Each card is one isolated instance for one team. Open your team to get its address and direct links into TheHive, Cortex, MISP, and Mattermost.</p>
+<div class="grid" id="grid"></div>
+<script src="assets/fleet-data.js"></script>
+<script>
+var g=document.getElementById('grid');
+Object.keys(FLEET.instances).forEach(function(id){var v=FLEET.instances[id];
+ var a=document.createElement('a');a.className='tcard';a.href='team.html?t='+id;
+ a.innerHTML='<div class="nm"><span class="live"></span>'+id+'</div>'+
+  '<div class="ip">'+v.ip+'</div>'+
+  '<div class="rg">team of 4 · responder'+v.first+'–'+v.last+'</div>';
+ g.appendChild(a);});
+</script></main>
+<footer class="foot">IR Lab workshop · 13 isolated instances · responder24–responder75@irorg.com</footer>
+</body></html>

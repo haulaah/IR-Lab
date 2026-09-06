@@ -1,0 +1,44 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team · IR Lab</title>
+<link rel="stylesheet" href="assets/app.css">
+</head><body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<g id="i-copy"><rect x="9" y="9" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 15V5a2 2 0 0 1 2-2h8" fill="none" stroke="currentColor" stroke-width="1.6"/></g>
+<g id="i-ext"><path d="M14 4h6v6M20 4l-9 9M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5" fill="none" stroke="currentColor" stroke-width="1.6"/></g>
+</defs></svg>
+<header class="top"><div class="top-in">
+  <a class="brand" href="index.html"><span class="mk">IR</span>
+    <div>IR Lab Workshop<small>incident-response training environment</small></div></a>
+  <nav class="nav"><a href="index.html" class="">Home</a><a href="guide.html" class="">Tool guide</a><a href="teams.html" class="on">Teams</a><a href="unlock.html" class="">Unlock credentials</a></nav>
+</div></header>
+<main class="wrap">
+<a class="back" href="teams.html">← All teams</a>
+<div id="team"></div>
+<script src="assets/fleet-data.js"></script>
+<script>
+function q(n){return new URLSearchParams(location.search).get(n)}
+var id=q('t'); var v=id&&FLEET.instances[id]; var el=document.getElementById('team');
+var roleCls=function(r){return r&&r.indexOf('Org')===0?'r-admin':(r&&r.indexOf('Read')===0?'r-read':'r-member')};
+if(!v){el.innerHTML='<h1>Team not found</h1><p class="lead">Pick a team from the <a href="teams.html" style="color:var(--teal-ink)">teams page</a>.</p>';}
+else{
+ var links=FLEET.tools.map(function(t){var url='http://'+v.ip+':'+t.port;
+  return '<a class="tl" style="--accent:'+t.accent+'" href="'+url+'" target="_blank" rel="noopener">'+
+   '<img class="tl-logo" src="assets/logos/'+t.logo+'" alt="'+t.name+'">'+
+   '<span class="tu">'+url+'</span>'+
+   '<span class="arrow"><svg viewBox="0 0 24 24" width="15" height="15"><use href="#i-ext"/></svg></span></a>';}).join('');
+ var rows=v.members.map(function(m){return '<tr><td class="num">responder'+m.num+'</td>'+
+   '<td class="'+roleCls(m.roles.thehive)+'">'+m.roles.thehive+'</td>'+
+   '<td class="'+roleCls(m.roles.misp)+'">'+m.roles.misp+'</td>'+
+   '<td class="'+roleCls(m.roles.cortex)+'">'+m.roles.cortex+'</td>'+
+   '<td class="'+roleCls(m.roles.mattermost)+'">'+m.roles.mattermost+'</td></tr>';}).join('');
+ el.innerHTML='<h1>'+id+'</h1>'+
+  '<p class="lead">Your team\'s instance. Click any tool to open it, then sign in with your own credentials from the <a href="unlock.html" style="color:var(--teal-ink)">unlock page</a>.</p>'+
+  '<div><span class="pill">IP <span class="mono" style="color:var(--teal-ink);margin-left:5px">'+v.ip+'</span></span> '+
+  '<span class="pill">team of 4 · responder'+v.first+'–'+v.last+'</span></div>'+
+  '<div class="toollinks">'+links+'</div>'+
+  '<div class="roster"><table><thead><tr><th>Member</th><th>TheHive</th><th>MISP</th><th>Cortex</th><th>Mattermost</th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
+  '<p class="lead" style="margin-top:20px"><a href="unlock.html" style="color:var(--teal-ink);font-weight:600">Unlock your credentials →</a></p>';}
+</script></main>
+<footer class="foot">IR Lab workshop · 13 isolated instances · responder24–responder75@irorg.com</footer>
+</body></html>

@@ -1,0 +1,49 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home · IR Lab</title>
+<link rel="stylesheet" href="assets/app.css">
+</head><body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<g id="i-copy"><rect x="9" y="9" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 15V5a2 2 0 0 1 2-2h8" fill="none" stroke="currentColor" stroke-width="1.6"/></g>
+<g id="i-ext"><path d="M14 4h6v6M20 4l-9 9M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5" fill="none" stroke="currentColor" stroke-width="1.6"/></g>
+</defs></svg>
+<header class="top"><div class="top-in">
+  <a class="brand" href="index.html"><span class="mk">IR</span>
+    <div>IR Lab Workshop<small>incident-response training environment</small></div></a>
+  <nav class="nav"><a href="index.html" class="on">Home</a><a href="guide.html" class="">Tool guide</a><a href="teams.html" class="">Teams</a><a href="unlock.html" class="">Unlock credentials</a></nav>
+</div></header>
+<main class="wrap">
+<div class="hero">
+  <h1>Welcome to the IR Lab</h1>
+  <p class="lead">Home base for the incident-response workshop. Each team gets its own isolated instance running TheHive, Cortex, MISP, and Mattermost. Learn the tools, find your team, then unlock your personal logins with the code your instructor gives you.</p>
+  <div class="stats">
+    <div class="stat"><b>13</b><span>team instances</span></div>
+    <div class="stat"><b>4</b><span>tools per team</span></div>
+    <div class="stat"><b>52</b><span>analyst accounts</span></div>
+  </div>
+</div>
+<div class="logostrip"><span class="ls-label">In every instance</span><img src="assets/logos/thehive.png" alt="TheHive"><img src="assets/logos/misp.png" alt="MISP"><img src="assets/logos/cortex.png" alt="Cortex"><img src="assets/logos/mattermost.webp" alt="Mattermost"></div>
+<div class="tiles3">
+  <a class="navtile" href="guide.html"><h3>Tool guide</h3><p>How to log in and get productive with each of the four platforms.</p><span class="go">Read the guide →</span></a>
+  <a class="navtile" href="teams.html"><h3>Find your team</h3><p>Your instance address and one-click links into all four tools.</p><span class="go">Open teams →</span></a>
+  <a class="navtile" href="unlock.html"><h3>Unlock credentials</h3><p>Enter your access code to reveal your username and password.</p><span class="go">Unlock →</span></a>
+</div>
+<h2>How this works</h2>
+<div class="card">
+<p style="margin:0 0 10px"><b>1. Learn the tools.</b> The <a href="guide.html" style="color:var(--teal-ink)">tool guide</a> is a quick cheat sheet for each platform &mdash; no login needed.</p>
+<p style="margin:0 0 10px"><b>2. Reach your instance.</b> On the <a href="teams.html" style="color:var(--teal-ink)">teams page</a>, open your team (e.g. soc-03) for its address and links into each tool.</p>
+<p style="margin:0"><b>3. Get your logins.</b> Paste the private access code from your instructor on the <a href="unlock.html" style="color:var(--teal-ink)">unlock page</a>. Your credentials are decrypted in your browser &mdash; never stored here in readable form.</p>
+</div></main>
+<footer class="foot">IR Lab workshop · 13 isolated instances · responder24–responder75@irorg.com</footer>
+<script>
+document.addEventListener('click',function(e){
+ var b=e.target.closest('.btn-copy'); if(b){var t=b.getAttribute('data-copy');
+  var d=function(){b.classList.add('done');setTimeout(function(){b.classList.remove('done')},1000)};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(d).catch(f)}else f();
+  function f(){var a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity=0;
+   document.body.appendChild(a);a.select();try{document.execCommand('copy');d()}catch(_){}document.body.removeChild(a)}
+  return}
+ var r=e.target.closest('.reveal'); if(r){var s=r.parentNode.querySelector('.secret');if(s){s.classList.toggle('show');
+  r.textContent=s.classList.contains('show')?'Hide':'Show'}}
+});
+</script></body></html>

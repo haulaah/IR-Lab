@@ -1,0 +1,91 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unlock · IR Lab</title>
+<link rel="stylesheet" href="assets/app.css">
+</head><body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<g id="i-copy"><rect x="9" y="9" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 15V5a2 2 0 0 1 2-2h8" fill="none" stroke="currentColor" stroke-width="1.6"/></g>
+<g id="i-ext"><path d="M14 4h6v6M20 4l-9 9M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5" fill="none" stroke="currentColor" stroke-width="1.6"/></g>
+</defs></svg>
+<header class="top"><div class="top-in">
+  <a class="brand" href="index.html"><span class="mk">IR</span>
+    <div>IR Lab Workshop<small>incident-response training environment</small></div></a>
+  <nav class="nav"><a href="index.html" class="">Home</a><a href="guide.html" class="">Tool guide</a><a href="teams.html" class="">Teams</a><a href="unlock.html" class="on">Unlock credentials</a></nav>
+</div></header>
+<main class="wrap">
+<div class="unlock-box">
+<h1>Unlock your credentials</h1>
+<p class="lead">Paste the personal access code your instructor gave you (it looks like <code>24-XXXXXXXXXXX</code>). Your username and password are decrypted right here in your browser &mdash; nothing readable is ever stored on this site.</p>
+<div class="field">
+  <input id="code" type="text" placeholder="e.g. 24-K7QFM9WX2AB" autocomplete="off" spellcheck="false" autocapitalize="characters">
+  <button id="go">Unlock</button>
+</div>
+<div class="err" id="err"></div>
+</div>
+<div class="result hidden" id="result"></div>
+<script src="assets/creds-data.js"></script>
+<script src="assets/fleet-data.js"></script>
+<script>
+var codeEl=document.getElementById('code'),err=document.getElementById('err'),
+    res=document.getElementById('result'),go=document.getElementById('go');
+var pre=new URLSearchParams(location.search).get('u'); if(pre)codeEl.placeholder=pre+'-…';
+function b64(s){var bin=atob(s),a=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);return a;}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+var TL={};FLEET.tools.forEach(function(t){TL[t.key]={accent:t.accent,logo:t.logo,name:t.name};});
+async function unlock(){
+  err.textContent='';res.classList.add('hidden');
+  var raw=(codeEl.value||'').trim().toUpperCase().replace(/\s+/g,'');
+  var m=raw.match(/^(\d+)-([0-9A-Z]+)$/);
+  if(!m){err.textContent='That doesn\'t look like a valid code. Format: number-CODE.';return;}
+  var id=m[1], code=id+'-'+m[2], blob=CREDS[id];
+  if(!blob){err.textContent='No account with that number. Check the code with your instructor.';return;}
+  go.disabled=true;go.textContent='Unlocking…';
+  try{
+    var enc=new TextEncoder();
+    var km=await crypto.subtle.importKey('raw',enc.encode(code),'PBKDF2',false,['deriveKey']);
+    var key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b64(blob.salt),iterations:window.PBKDF2_ITER,hash:'SHA-256'},
+      km,{name:'AES-GCM',length:256},false,['decrypt']);
+    var pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:b64(blob.iv),additionalData:enc.encode(id)},key,b64(blob.ct));
+    render(JSON.parse(new TextDecoder().decode(pt)));
+  }catch(e){err.textContent='Wrong code for that account. Double-check it and try again.';}
+  finally{go.disabled=false;go.textContent='Unlock';}
+}
+function secret(v){return '<span class="secret"><span class="dots">••••••••••</span>'+
+  '<span class="val">'+esc(v)+'</span></span> <button class="reveal">Show</button>'+
+  '<button class="btn-copy" data-copy="'+esc(v)+'" title="Copy"><svg viewBox="0 0 24 24" width="14" height="14"><use href="#i-copy"/></svg></button>';}
+function copy(v){return '<span class="mono">'+esc(v)+'</span> <button class="btn-copy" data-copy="'+esc(v)+'" title="Copy"><svg viewBox="0 0 24 24" width="14" height="14"><use href="#i-copy"/></svg></button>';}
+function roleCls(r){return r.indexOf('Org')===0?'r-admin':(r.indexOf('Read')===0?'r-read':'r-member');}
+function render(d){
+  var tools=d.tools.map(function(t){var m=TL[t.key]||{accent:'#14b8b0',logo:'',name:t.name};
+    var note=t.note?'<div style="font-size:12px;color:#8a97a8;margin-top:6px">'+esc(t.note)+'</div>':'';
+    return '<div class="credtool" style="--accent:'+m.accent+'">'+
+      '<div class="ch"><img class="ct-logo" src="assets/logos/'+m.logo+'" alt="'+esc(m.name)+'">'+
+      '<span class="role '+roleCls(t.role)+'">'+esc(t.role)+'</span></div>'+
+      '<div class="credrow"><span class="k">URL</span><a class="open" href="'+esc(t.url)+'" target="_blank" rel="noopener">'+esc(t.url)+'</a></div>'+
+      '<div class="credrow" style="border-bottom:0"><span class="k">login</span>'+copy(t.login)+'</div>'+note+'</div>';}).join('');
+  res.innerHTML=
+    '<div class="who"><div class="av">'+esc(String(d.user).replace(/\D/g,''))+'</div>'+
+      '<div><div class="nm2">'+esc(d.user)+'</div><div class="sub2">'+esc(d.instance)+' · '+esc(d.ip)+'</div></div></div>'+
+    '<div class="card"><div class="credrow"><span class="k">email / login</span>'+copy(d.email)+'</div>'+
+      '<div class="credrow" style="border-bottom:0"><span class="k">password</span>'+secret(d.password)+'</div>'+
+      '<div style="font-size:12px;color:#8a97a8;margin-top:10px">This one password works on all four tools below.</div></div>'+
+    '<h2 style="margin-top:26px">Your access per tool</h2>'+tools+
+    '<div class="warnbar" style="margin-top:22px">Keep this to yourself. Close the tab when you\'re done — nothing is saved.</div>';
+  res.classList.remove('hidden');res.scrollIntoView({behavior:'smooth',block:'start'});
+}
+go.addEventListener('click',unlock);
+codeEl.addEventListener('keydown',function(e){if(e.key==='Enter')unlock();});
+</script></main>
+<footer class="foot">IR Lab workshop · 13 isolated instances · responder24–responder75@irorg.com</footer>
+<script>
+document.addEventListener('click',function(e){
+ var b=e.target.closest('.btn-copy'); if(b){var t=b.getAttribute('data-copy');
+  var d=function(){b.classList.add('done');setTimeout(function(){b.classList.remove('done')},1000)};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(d).catch(f)}else f();
+  function f(){var a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.opacity=0;
+   document.body.appendChild(a);a.select();try{document.execCommand('copy');d()}catch(_){}document.body.removeChild(a)}
+  return}
+ var r=e.target.closest('.reveal'); if(r){var s=r.parentNode.querySelector('.secret');if(s){s.classList.toggle('show');
+  r.textContent=s.classList.contains('show')?'Hide':'Show'}}
+});
+</script></body></html>
