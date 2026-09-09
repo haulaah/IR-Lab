@@ -14,7 +14,7 @@
 </div></header>
 <main class="wrap">
 <h1>Teams</h1>
-<p class="lead">Each card is one isolated instance for one team. Open your team to get its address and direct links into TheHive, Cortex, MISP, and Mattermost.</p>
+<p class="lead">Each card is one isolated instance for one team. Open your team to get the direct links into TheHive, Cortex, MISP, and Mattermost.</p>
 <div class="grid" id="grid"></div>
 <script src="assets/fleet-data.js"></script>
 <script>
@@ -22,8 +22,7 @@ var g=document.getElementById('grid');
 Object.keys(FLEET.instances).forEach(function(id){var v=FLEET.instances[id];
  var a=document.createElement('a');a.className='tcard';a.href='team.html?t='+id;
  a.innerHTML='<div class="nm"><span class="live"></span>'+id+'</div>'+
-  '<div class="ip">'+v.ip+'</div>'+
-  '<div class="rg">team of 4 · responder'+v.first+'–'+v.last+'</div>';
+  '<div class="rg" style="margin-top:8px">team of 4 · responder'+v.first+'–'+v.last+'</div>';
  g.appendChild(a);});
 </script></main>
 <footer class="foot">IR Lab workshop </footer>
