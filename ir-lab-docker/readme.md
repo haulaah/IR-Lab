@@ -43,8 +43,7 @@ docker run hello-world   # should print "Hello from Docker!"
 
 ```bash
 git clone https://github.com/haulaah/IR-Lab.git
-cd IR-Lab
-cd ir-lab-docker
+cd IR-Lab/ir-lab-docker
 chmod +x setup.sh   
 ./setup.sh
 ```
