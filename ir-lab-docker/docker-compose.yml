@@ -3,15 +3,17 @@ services:
 
   thehive:
     image: strangebee/thehive:5.2
+    restart: unless-stopped
     depends_on:
       - cassandra
       - elasticsearch-thehive
       - minio
+      - minio-init
     mem_limit: 1500m
     ports:
       - "9000:9000"
     environment:
-      - JVM_OPTS="-Xms1024M -Xmx1024M"
+      - JVM_OPTS=-Xms1024M -Xmx1024M
     command:
       - --secret
       - "mySecretForTheHive"
@@ -38,7 +40,7 @@ services:
       - "9042:9042"
     environment:
       - MAX_HEAP_SIZE=1024M
-      - HEAP_NEWSIZE=1024M
+      - HEAP_NEWSIZE=200M
       - CASSANDRA_CLUSTER_NAME=TheHive
     volumes:
       - cassandradata:/var/lib/cassandra
@@ -46,19 +48,22 @@ services:
 
   elasticsearch-thehive:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.12
+    restart: unless-stopped
     mem_limit: 1500m
     ports:
       - "9200:9200"
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
     volumes:
       - elasticsearchdata:/usr/share/elasticsearch/data
 
   minio:
-    image: quay.io/minio/minio
+    image: pgsty/minio:latest
+    restart: unless-stopped
     mem_limit: 512m
-    command: ["minio", "server", "/data", "--console-address", ":9090"]
+    command: ["server", "/data", "--console-address", ":9090"]
     environment:
       - MINIO_ROOT_USER=minioadmin
       - MINIO_ROOT_PASSWORD=minioadmin
@@ -67,9 +72,19 @@ services:
     volumes:
       - miniodata:/data
 
+  minio-init:
+    image: cgr.dev/chainguard/minio-client:latest
+    depends_on:
+      - minio
+    restart: on-failure
+    environment:
+      - MC_HOST_local=http://minioadmin:minioadmin@minio:9000
+    command: ["mb", "--ignore-existing", "local/thehive"]
+
 
   cortex:
     image: thehiveproject/cortex:3.1.1
+    restart: unless-stopped
     environment:
       - job_directory=/home/lab/cortex/jobs
     volumes:
@@ -103,6 +118,7 @@ services:
 
   elasticsearch:
     image: elasticsearch:7.9.1
+    restart: unless-stopped
     environment:
       - http.host=0.0.0.0
       - discovery.type=single-node
@@ -125,8 +141,8 @@ services:
     environment:
       MYSQL_DATABASE: misp
       MYSQL_USER: misp
-      MYSQL_PASSWORD: password        
-      MYSQL_ROOT_PASSWORD: password    
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
 
   redis:
     image: redis:7.2
@@ -165,15 +181,15 @@ services:
     environment:
       MYSQL_HOST: mysql
       MYSQL_LOGIN: misp
-      MYSQL_PASSWORD: password         
+      MYSQL_PASSWORD: password
       MYSQL_DATABASE: misp
       REDIS_HOST: redis
       MISP_BASEURL: http://${HOST_IP:-localhost}:8080
-      MISP_UUID: 0a674a5a-c4cb-491d-80cf-5adb48b5c1cd   
-      MISP_ORG: Testing org                              
+      MISP_UUID: 0a674a5a-c4cb-491d-80cf-5adb48b5c1cd
+      MISP_ORG: Testing org
       MISP_MODULE_URL: http://misp-modules
-      MISP_EMAIL: ahoj@example.com                       
-      SECURITY_SALT: PleaseChangeForProduction          
+      MISP_EMAIL: ahoj@example.com
+      SECURITY_SALT: PleaseChangeForProduction
       ZEROMQ_ENABLED: "true"
       SYSLOG_ENABLED: "false"
       ECS_LOG_ENABLED: "true"
@@ -186,8 +202,8 @@ services:
       - misp_img_custom:/var/www/MISP/app/webroot/img/custom/
       - misp_gnupg:/var/www/MISP/.gnupg/
     ports:
-      - "8080:80"                  
-      - "127.0.0.1:50000:50000"    
+      - "8080:80"
+      - "127.0.0.1:50000:50000"
 
   postgres:
     image: postgres:17-alpine
